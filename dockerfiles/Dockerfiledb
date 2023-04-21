@@ -2,6 +2,7 @@ FROM postgres
 
 COPY ./db/words.sql /docker-entrypoint-initdb.d/
 
+# Instrucciones
 # docker run -it db
 # psql -U postgres
 # https://chartio.com/resources/tutorials/how-to-list-databases-and-tables-in-postgresql-using-psql/
