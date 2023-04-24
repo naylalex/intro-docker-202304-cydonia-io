@@ -1,13 +1,12 @@
-FROM golang:1.20
-
+FROM golang:1.20 AS builder
 WORKDIR /usr/src/app
-
-# pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
-COPY . .
-# RUN go mod download && go mod verify
-
+COPY ./web .
 RUN go build dispatcher.go
+# CMD ["./dispatcher"]
+# EXPOSE 80
 
+FROM scratch AS bin
+COPY --from=builder /usr/src/app .
 CMD ["./dispatcher"]
-
 EXPOSE 80
+

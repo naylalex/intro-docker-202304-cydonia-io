@@ -1,0 +1,13 @@
+FROM ubuntu as builder
+RUN apt-get update -y
+RUN apt-get install -y maven openjdk-8-jdk
+WORKDIR /usr/src/words
+COPY ./words .
+RUN mvn verify
+# CMD ["java", "-Xmx8m", "-Xms8m", "-jar", "target/words.jar"]
+# EXPOSE 8080
+
+FROM amazoncorretto
+COPY --from=builder /usr/src/words .
+CMD ["java", "-Xmx8m", "-Xms8m", "-jar", "target/words.jar"]
+EXPOSE 8080
